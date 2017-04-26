@@ -1,7 +1,13 @@
 import pygame, sys
 from pygame.locals import * 
+from random import randrange as rand 
 
-DISPLAYSURF = pygame.display.set_mode((1000,1000))
+DISPLAYSURF = pygame.display.set_mode((400,500))
+
+cell_size = 18
+cols = 10
+rows = 22
+maxfps = 30
 
 #Colors
 WHITE = (255, 255, 255)
@@ -17,77 +23,78 @@ YELLOW = (155, 155, 0)
 LIGHTYELLOW = (175, 175, 20)
 
 
-#Encoding of tetronimo shapes
+# #Encoding of tetronimo shapes
 
-I_tetronimo = [[1, 1, 1, 1], 
-				[[1], 
-				 [1], 
-				 [1], 
-				 [1]]]
+# I_tetronimo = [[1, 1, 1, 1], 
+# 				[[1], 
+# 				 [1], 
+# 				 [1], 
+# 				 [1]]]
 
-O_tetronimo = [[2, 2], 
-			   [2, 2]]
+# O_tetronimo = [[2, 2], 
+# 			   [2, 2]]
 
-T_tetronimo = [[[3, 3, 3], 
-				[0, 3, 0]], 
+# T_tetronimo = [[[3, 3, 3], 
+# 				[0, 3, 0]], 
 
-				[[0, 3],
-				 [3, 3],
-				 [0, 3]], 
+# 				[[0, 3],
+# 				 [3, 3],
+# 				 [0, 3]], 
 
-				[[3, 0], 
-				 [3, 3], 
-				 [3, 0]], 
+# 				[[3, 0], 
+# 				 [3, 3], 
+# 				 [3, 0]], 
 
-				[[0, 3, 0], 
-				 [3, 3, 3]]
-				]
+# 				[[0, 3, 0], 
+# 				 [3, 3, 3]]
+# 				]
 
-S_tetronimo = [[[0, 4, 4], 
-				 [4, 4, 0]], 
+# S_tetronimo = [[[0, 4, 4], 
+# 				 [4, 4, 0]], 
 
-				[[4, 0], 
-				  [4, 4], 
-				  [0, 4]]
-				  ]
-Z_tetronimo = [[[5, 5, 0], 
-				[0, 5, 5]], 
+# 				[[4, 0], 
+# 				  [4, 4], 
+# 				  [0, 4]]
+# 				  ]
+# Z_tetronimo = [[[5, 5, 0], 
+# 				[0, 5, 5]], 
 
-				[0, 5], 
-				[5, 5], 
-				[5, 0]]
+# 				[0, 5], 
+# 				[5, 5], 
+# 				[5, 0]]
 
-J_tetronimo = [[[0, 6], 
-				[0, 6], 
-				[6, 6]], 
+# J_tetronimo = [[[0, 6], 
+# 				[0, 6], 
+# 				[6, 6]], 
 
-				[[6, 0, 0], 
-				[6, 6, 6]], 
+# 				[[6, 0, 0], 
+# 				[6, 6, 6]], 
 
-				[[7, 7], 
-				[7, 0], 
-				[7, 0]], 
+# 				[[7, 7], 
+# 				[7, 0], 
+# 				[7, 0]], 
 
-				[[7, 7, 7], 
-				[0, 0, 7]]	
-				]
+# 				[[7, 7, 7], 
+# 				[0, 0, 7]]	
+# 				]
 
-L_tetronimo = [[[8, 0], 
-				 [8, 0], 
-				 [8, 8]], 
+# L_tetronimo = [[[8, 0], 
+# 				 [8, 0], 
+# 				 [8, 8]], 
 
-				 [[8, 8, 8], 
-				 [8, 0, 0]], 
+# 				 [[8, 8, 8], 
+# 				 [8, 0, 0]], 
 
-				 [[8, 8], 
-				 [0, 8], 
-				 [0, 8]], 
+# 				 [[8, 8], 
+# 				 [0, 8], 
+# 				 [0, 8]], 
 
-				 [[0, 0, 8], 
-				 [8, 8, 8]]
-				 ]
+# 				 [[0, 0, 8], 
+# 				 [8, 8, 8]]
+# 				 ]
 
 
+# tetronimos = [I_tetronimo, O_tetronimo, T_tetronimo, S_tetronimo, Z_tetronimo, J_tetronimo, L_tetronimo]
 
 
 tetronimos = [
@@ -125,11 +132,14 @@ class Tetris(object):
 		height = 20 
 		margin = 5 
 
+		chosen_rand = rand(len(tetronimos))
+		for i in range(len(tetronimos[chosen_rand])):
+			for x in range(len(tetronimos[chosen_rand][i])):
+				if tetronimos[chosen_rand][i][x] != ' ':
+					pygame.draw.rect(DISPLAYSURF, BLUE, ((margin+width)*x+margin, (margin+height)*i+margin, width, height), 1)
 
-		for column in range(0, 10):
-			#(screen, color, [x, y, width, height], line_thickness)
-			pygame.draw.rect(DISPLAYSURF, (0,0,255), 
-				((margin+width)*column+margin,(margin+height),width,height), 1)
+
+
 
 	def run(self):
 		while True:
@@ -139,6 +149,8 @@ class Tetris(object):
 					sys.exit()
 				pygame.display.update()
 
+#Goal 1:
+#draw random block 
 
 
 if __name__ == '__main__':
